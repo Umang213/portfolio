@@ -1,0 +1,939 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Umang Patel | Unity Game Developer</title>
+  <style>
+    :root {
+      --ink: #16181d;
+      --muted: #5f6675;
+      --paper: #f7f6f2;
+      --panel: #ffffff;
+      --line: #d9d7cf;
+      --accent: #1f8a70;
+      --accent-dark: #126453;
+      --warm: #e7b75f;
+      --shadow: 0 18px 45px rgba(24, 28, 35, 0.12);
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: Arial, Helvetica, sans-serif;
+      color: var(--ink);
+      background: var(--paper);
+      line-height: 1.6;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    .site-header {
+      position: sticky;
+      top: 0;
+      z-index: 10;
+      border-bottom: 1px solid rgba(22, 24, 29, 0.1);
+      background: rgba(247, 246, 242, 0.92);
+      backdrop-filter: blur(14px);
+    }
+
+    .nav {
+      width: min(1120px, calc(100% - 32px));
+      margin: 0 auto;
+      min-height: 72px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 24px;
+    }
+
+    .brand {
+      font-size: 1rem;
+      font-weight: 800;
+      letter-spacing: 0;
+    }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 18px;
+      color: var(--muted);
+      font-size: 0.94rem;
+      font-weight: 700;
+    }
+
+    .nav-links a:hover {
+      color: var(--accent-dark);
+    }
+
+    .contact-links {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 24px;
+    }
+
+    .contact-pill {
+      display: inline-flex;
+      align-items: center;
+      min-height: 38px;
+      padding: 0 12px;
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.62);
+      color: var(--muted);
+      font-size: 0.9rem;
+      font-weight: 700;
+    }
+
+    .contact-pill:hover {
+      color: var(--accent-dark);
+      border-color: rgba(31, 138, 112, 0.42);
+    }
+
+    .button {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 44px;
+      padding: 0 18px;
+      border-radius: 6px;
+      border: 1px solid var(--accent);
+      background: var(--accent);
+      color: #ffffff;
+      font-weight: 800;
+      box-shadow: 0 10px 24px rgba(31, 138, 112, 0.18);
+      transition: transform 160ms ease, box-shadow 160ms ease, background 160ms ease;
+    }
+
+    .button:hover {
+      transform: translateY(-2px);
+      background: var(--accent-dark);
+      box-shadow: 0 14px 30px rgba(31, 138, 112, 0.24);
+    }
+
+    .button.secondary {
+      background: transparent;
+      color: var(--accent-dark);
+      box-shadow: none;
+    }
+
+    .hero {
+      min-height: calc(100vh - 72px);
+      display: grid;
+      align-items: center;
+      padding: 74px 0 56px;
+      border-bottom: 1px solid var(--line);
+    }
+
+    .hero-inner,
+    .section-inner {
+      width: min(1120px, calc(100% - 32px));
+      margin: 0 auto;
+    }
+
+    .hero-grid {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) minmax(280px, 420px);
+      gap: 52px;
+      align-items: center;
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      margin: 0 0 18px;
+      color: var(--accent-dark);
+      font-size: 0.9rem;
+      font-weight: 800;
+    }
+
+    .eyebrow::before {
+      content: "";
+      width: 32px;
+      height: 2px;
+      background: var(--warm);
+    }
+
+    h1,
+    h2,
+    h3,
+    p {
+      margin-top: 0;
+    }
+
+    h1 {
+      max-width: 780px;
+      margin-bottom: 20px;
+      font-size: clamp(2.6rem, 8vw, 5.7rem);
+      line-height: 0.98;
+      letter-spacing: 0;
+    }
+
+    .hero-copy {
+      max-width: 660px;
+      color: var(--muted);
+      font-size: 1.15rem;
+    }
+
+    .hero-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 14px;
+      margin-top: 32px;
+    }
+
+    .stats {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 12px;
+      margin-top: 42px;
+      max-width: 640px;
+    }
+
+    .stat {
+      min-height: 104px;
+      padding: 18px;
+      border: 1px solid var(--line);
+      background: rgba(255, 255, 255, 0.54);
+      border-radius: 8px;
+    }
+
+    .stat strong {
+      display: block;
+      margin-bottom: 4px;
+      font-size: 1.6rem;
+      line-height: 1;
+    }
+
+    .stat span {
+      color: var(--muted);
+      font-size: 0.92rem;
+    }
+
+    .showcase-panel {
+      position: relative;
+      overflow: hidden;
+      min-height: 520px;
+      border: 1px solid rgba(22, 24, 29, 0.12);
+      border-radius: 8px;
+      background:
+        linear-gradient(145deg, rgba(22, 24, 29, 0.84), rgba(24, 62, 68, 0.82)),
+        url("https://images.unsplash.com/photo-1614680376573-df3480f0c6ff?auto=format&fit=crop&w=1000&q=80") center/cover;
+      box-shadow: var(--shadow);
+      color: #ffffff;
+    }
+
+    .showcase-panel::after {
+      content: "";
+      position: absolute;
+      inset: 18px;
+      border: 1px solid rgba(255, 255, 255, 0.24);
+      border-radius: 6px;
+      pointer-events: none;
+    }
+
+    .panel-content {
+      position: relative;
+      z-index: 1;
+      height: 100%;
+      min-height: 520px;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+      padding: 34px;
+    }
+
+    .panel-content h2 {
+      margin-bottom: 10px;
+      font-size: 2rem;
+      line-height: 1.1;
+    }
+
+    .panel-content p {
+      margin-bottom: 0;
+      color: rgba(255, 255, 255, 0.78);
+    }
+
+    section {
+      padding: 82px 0;
+      border-bottom: 1px solid var(--line);
+    }
+
+    .section-title {
+      display: flex;
+      align-items: end;
+      justify-content: space-between;
+      gap: 24px;
+      margin-bottom: 30px;
+    }
+
+    .section-title h2 {
+      margin-bottom: 0;
+      font-size: clamp(2rem, 5vw, 3.4rem);
+      line-height: 1;
+    }
+
+    .section-title p {
+      max-width: 520px;
+      margin-bottom: 0;
+      color: var(--muted);
+    }
+
+    .cards {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 18px;
+    }
+
+    .card {
+      min-height: 220px;
+      padding: 24px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: var(--panel);
+    }
+
+    .card h3 {
+      margin-bottom: 10px;
+      font-size: 1.2rem;
+    }
+
+    .card p {
+      color: var(--muted);
+    }
+
+    .timeline {
+      display: grid;
+      gap: 16px;
+    }
+
+    .timeline-item {
+      display: grid;
+      grid-template-columns: 180px 1fr;
+      gap: 24px;
+      padding: 24px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: var(--panel);
+    }
+
+    .timeline-date {
+      color: var(--accent-dark);
+      font-weight: 800;
+    }
+
+    .timeline-item h3 {
+      margin-bottom: 6px;
+    }
+
+    .timeline-company {
+      display: inline-flex;
+      margin-bottom: 14px;
+      color: var(--accent-dark);
+      font-weight: 800;
+    }
+
+    .timeline-company:hover {
+      text-decoration: underline;
+    }
+
+    .timeline-item p {
+      margin-bottom: 0;
+      color: var(--muted);
+    }
+
+    .timeline-list {
+      margin: 0;
+      padding-left: 20px;
+      color: var(--muted);
+    }
+
+    .timeline-list li + li {
+      margin-top: 8px;
+    }
+
+    .tag-list {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 20px;
+    }
+
+    .tag {
+      padding: 7px 10px;
+      border-radius: 999px;
+      background: #eef4ef;
+      color: var(--accent-dark);
+      font-size: 0.82rem;
+      font-weight: 800;
+    }
+
+    .project-list {
+      display: grid;
+      gap: 16px;
+    }
+
+    .project {
+      display: grid;
+      grid-template-columns: 180px 1fr auto;
+      gap: 22px;
+      align-items: center;
+      padding: 18px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: var(--panel);
+    }
+
+    .project.featured {
+      grid-template-columns: minmax(280px, 420px) minmax(0, 1fr);
+      align-items: stretch;
+      padding: 0;
+      overflow: hidden;
+    }
+
+    .project-thumb {
+      aspect-ratio: 16 / 10;
+      border-radius: 6px;
+      background:
+        linear-gradient(135deg, rgba(31, 138, 112, 0.82), rgba(231, 183, 95, 0.76)),
+        url("https://images.unsplash.com/photo-1556438064-2d7646166914?auto=format&fit=crop&w=700&q=80") center/cover;
+    }
+
+    .project-media {
+      min-height: 100%;
+      background: #101318;
+    }
+
+    .project-media video {
+      display: block;
+      width: 100%;
+      height: 100%;
+      min-height: 360px;
+      object-fit: cover;
+      background: #101318;
+    }
+
+    .project-content {
+      padding: 28px;
+    }
+
+    .project-meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin: 0 0 14px;
+      color: var(--accent-dark);
+      font-size: 0.86rem;
+      font-weight: 800;
+    }
+
+    .project h3 {
+      margin-bottom: 6px;
+    }
+
+    .project p {
+      margin-bottom: 0;
+      color: var(--muted);
+    }
+
+    .contact-band {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) auto;
+      gap: 28px;
+      align-items: center;
+      padding: 34px;
+      border-radius: 8px;
+      background: var(--ink);
+      color: #ffffff;
+    }
+
+    .contact-band p {
+      max-width: 680px;
+      margin-bottom: 0;
+      color: rgba(255, 255, 255, 0.72);
+    }
+
+    footer {
+      padding: 28px 0;
+      color: var(--muted);
+      font-size: 0.92rem;
+    }
+
+    @media (max-width: 860px) {
+      .nav {
+        min-height: auto;
+        padding: 18px 0;
+        align-items: flex-start;
+        flex-direction: column;
+      }
+
+      .nav-links {
+        width: 100%;
+        overflow-x: auto;
+        padding-bottom: 2px;
+      }
+
+      .hero-grid,
+      .cards,
+      .contact-band {
+        grid-template-columns: 1fr;
+      }
+
+      .hero {
+        min-height: auto;
+        padding-top: 54px;
+      }
+
+      .showcase-panel,
+      .panel-content {
+        min-height: 420px;
+      }
+
+      .section-title {
+        display: block;
+      }
+
+      .section-title p {
+        margin-top: 14px;
+      }
+
+      .project {
+        grid-template-columns: 1fr;
+      }
+
+      .project-thumb {
+        width: 100%;
+      }
+
+      .project.featured {
+        grid-template-columns: 1fr;
+      }
+
+      .project-media video {
+        min-height: 300px;
+      }
+
+      .timeline-item {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (max-width: 560px) {
+      .nav-links {
+        gap: 13px;
+        font-size: 0.86rem;
+      }
+
+      .stats {
+        grid-template-columns: 1fr;
+      }
+
+      .hero-actions {
+        display: grid;
+      }
+
+      .button {
+        width: 100%;
+      }
+
+      section {
+        padding: 62px 0;
+      }
+
+      .panel-content,
+      .contact-band {
+        padding: 24px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header class="site-header">
+    <nav class="nav" aria-label="Main navigation">
+      <a class="brand" href="#top">Umang Patel</a>
+      <div class="nav-links">
+        <a href="#about">About</a>
+        <a href="#expertise">Expertise</a>
+        <a href="#skills">Skills</a>
+        <a href="#experience">Experience</a>
+        <a href="#education">Education</a>
+        <a href="#projects">Projects</a>
+        <a href="#contact">Contact</a>
+      </div>
+    </nav>
+  </header>
+
+  <main id="top">
+    <section class="hero" aria-label="Introduction">
+      <div class="hero-inner hero-grid">
+        <div>
+          <p class="eyebrow">Unity Game Developer</p>
+          <h1>Creating captivating games for mobile, PC, and WebGL.</h1>
+          <p class="hero-copy">
+            I am a creative and detail-oriented Unity Game Developer from Ahmedabad, Gujarat,
+            with 4 years of hands-on experience building simple and complex games across
+            diverse platforms.
+          </p>
+          <div class="hero-actions">
+            <a class="button" href="#projects">View Projects</a>
+            <a class="button secondary" href="mailto:umangpatel0321@gmail.com">Contact Me</a>
+          </div>
+          <div class="contact-links" aria-label="Contact details">
+            <a class="contact-pill" href="tel:+919328075395">9328075395</a>
+            <a class="contact-pill" href="mailto:umangpatel0321@gmail.com">umangpatel0321@gmail.com</a>
+            <a class="contact-pill" href="https://www.linkedin.com/in/umang-patel-275994215/" target="_blank" rel="noreferrer">LinkedIn</a>
+            <span class="contact-pill">Ahmedabad, Gujarat, India</span>
+          </div>
+          <div class="stats" aria-label="Portfolio highlights">
+            <div class="stat">
+              <strong>4+</strong>
+              <span>Years of Unity development</span>
+            </div>
+            <div class="stat">
+              <strong>3</strong>
+              <span>Mobile, PC, and WebGL platforms</span>
+            </div>
+            <div class="stat">
+              <strong>Live</strong>
+              <span>Ads, IAP, APIs, and multiplayer systems</span>
+            </div>
+          </div>
+        </div>
+
+        <aside class="showcase-panel" aria-label="Game development showcase">
+          <div class="panel-content">
+            <h2>Unity gameplay, services, and platform delivery</h2>
+            <p>Project screenshots, videos, playable demos, and case studies will be added here as the portfolio grows.</p>
+          </div>
+        </aside>
+      </div>
+    </section>
+
+    <section id="about">
+      <div class="section-inner">
+        <div class="section-title">
+          <h2>About</h2>
+          <p>I enjoy working with others and aim to create games that are approachable, enjoyable, and technically reliable.</p>
+        </div>
+        <div class="cards">
+          <article class="card">
+            <h3>Creative Game Development</h3>
+            <p>Hands-on experience crafting captivating gaming elements, gameplay systems, and interactive experiences in Unity.</p>
+          </article>
+          <article class="card">
+            <h3>Platform Coverage</h3>
+            <p>Comfortable building across mobile, PC, and WebGL, with awareness of platform-specific behavior and constraints.</p>
+          </article>
+          <article class="card">
+            <h3>Team Player</h3>
+            <p>Strong communication, teamwork, time management, and leadership habits for collaborative production environments.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section id="expertise">
+      <div class="section-inner">
+        <div class="section-title">
+          <h2>Expertise</h2>
+          <p>Technical areas where I have practical implementation experience in real Unity projects.</p>
+        </div>
+        <div class="cards">
+          <article class="card">
+            <h3>Ads and Monetization</h3>
+            <p>Game advertisement monetization using Unity Ads, Google AdMob, IronSource Ads SDK, and Facebook Ads integration.</p>
+            <div class="tag-list">
+              <span class="tag">Unity Ads</span>
+              <span class="tag">AdMob</span>
+              <span class="tag">IronSource</span>
+              <span class="tag">Facebook Ads</span>
+            </div>
+          </article>
+          <article class="card">
+            <h3>Services and Integrations</h3>
+            <p>Unity In-App Purchases, API integration, Socket.io real-time communication, Firebase, Google Login, and Facebook Login.</p>
+            <div class="tag-list">
+              <span class="tag">IAP</span>
+              <span class="tag">Socket.io</span>
+              <span class="tag">Firebase</span>
+              <span class="tag">APIs</span>
+            </div>
+          </article>
+          <article class="card">
+            <h3>WebGL and Multiplayer</h3>
+            <p>Unity WebGL development and multiplayer systems using Photon PUN for connected gameplay experiences.</p>
+            <div class="tag-list">
+              <span class="tag">WebGL</span>
+              <span class="tag">Photon PUN</span>
+              <span class="tag">Multiplayer</span>
+            </div>
+          </article>
+          <article class="card">
+            <h3>Optimization and QA</h3>
+            <p>Strong understanding of mobile optimization techniques for smooth performance on low-end devices, with attention to quality assurance.</p>
+            <div class="tag-list">
+              <span class="tag">Optimization</span>
+              <span class="tag">QA</span>
+              <span class="tag">Low-end Devices</span>
+            </div>
+          </article>
+          <article class="card">
+            <h3>Workflow and Delivery</h3>
+            <p>Familiar with Agile development workflows, version control systems, and structured problem-solving during production.</p>
+            <div class="tag-list">
+              <span class="tag">Agile</span>
+              <span class="tag">Version Control</span>
+              <span class="tag">Problem-Solving</span>
+            </div>
+          </article>
+          <article class="card">
+            <h3>Cross-platform Development</h3>
+            <p>Skilled in cross-platform development, ensuring consistent quality across Android, iOS, and WebGL while continuing to learn modern game design and technology trends.</p>
+            <div class="tag-list">
+              <span class="tag">Android</span>
+              <span class="tag">iOS</span>
+              <span class="tag">WebGL</span>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section id="skills">
+      <div class="section-inner">
+        <div class="section-title">
+          <h2>Skills</h2>
+          <p>A balanced mix of programming, engine knowledge, creative tooling, and professional collaboration skills.</p>
+        </div>
+        <div class="tag-list" aria-label="Skills list">
+          <span class="tag">Unity</span>
+          <span class="tag">C#</span>
+          <span class="tag">Game Design</span>
+          <span class="tag">Mobile Game Development</span>
+          <span class="tag">2D Game Development</span>
+          <span class="tag">3D Game Development</span>
+          <span class="tag">Game Optimization</span>
+          <span class="tag">Quality Assurance</span>
+          <span class="tag">Problem-Solving</span>
+          <span class="tag">C/C++</span>
+          <span class="tag">Adobe Photoshop</span>
+          <span class="tag">Time Management</span>
+          <span class="tag">Team Work</span>
+          <span class="tag">Communication</span>
+          <span class="tag">Leadership</span>
+        </div>
+      </div>
+    </section>
+
+    <section id="experience">
+      <div class="section-inner">
+        <div class="section-title">
+          <h2>Work Experience</h2>
+          <p>Professional Unity development experience across production games, SDK integrations, optimization, and platform delivery.</p>
+        </div>
+        <div class="timeline">
+          <article class="timeline-item">
+            <div class="timeline-date">2023 - Present</div>
+            <div>
+              <h3>Unity Game Developer</h3>
+              <a class="timeline-company" href="https://booboogames.com/" target="_blank" rel="noreferrer">BooBoo Games, India</a>
+              <ul class="timeline-list">
+                <li>Managed multiple projects simultaneously, ensuring high-quality deliverables on tight schedules.</li>
+                <li>Applied Clean Code principles and Clean Architecture for maintainable, scalable, and efficient project structures.</li>
+                <li>Integrated Unity Ads, Google AdMob, IronSource, and Firebase SDKs for monetization and analytics.</li>
+                <li>Worked with API calls and third-party integrations to enhance gameplay functionality.</li>
+                <li>Developed games for AR, VR, and WebGL platforms.</li>
+                <li>Created responsive UI/UX designs and optimized game performance for smooth gameplay across devices.</li>
+                <li>Collaborated with cross-functional teams to deliver innovative and bug-free products.</li>
+              </ul>
+            </div>
+          </article>
+
+          <article class="timeline-item">
+            <div class="timeline-date">2021 - 2022</div>
+            <div>
+              <h3>Game Development Intern</h3>
+              <p class="timeline-company">Virtue Infotech, India</p>
+              <ul class="timeline-list">
+                <li>Developed runner, casual, hyper-casual, and idle games from concept to deployment.</li>
+                <li>Optimized performance and reduced memory usage through advanced profiling and debugging techniques.</li>
+                <li>Implemented a modular save system for flexible and scalable game data management.</li>
+                <li>Designed and programmed complex AI behaviors for in-game NPCs.</li>
+                <li>Contributed to both 2D and 3D game design, focusing on captivating visuals and engaging gameplay.</li>
+              </ul>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section id="education">
+      <div class="section-inner">
+        <div class="section-title">
+          <h2>Education</h2>
+          <p>Formal technical background supporting my work in software, systems, and game development.</p>
+        </div>
+        <div class="timeline">
+          <article class="timeline-item">
+            <div class="timeline-date">04/2019 - 11/2023</div>
+            <div>
+              <h3>Information Technology Engineering (B.Tech)</h3>
+              <p>Atmiya University</p>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section id="projects">
+      <div class="section-inner">
+        <div class="section-title">
+          <h2>Projects</h2>
+          <p>Selected game projects with gameplay details, platform links, and video previews.</p>
+        </div>
+        <div class="project-list">
+          <article class="project featured">
+            <div class="project-media">
+              <video
+                id="solar-car-video"
+                src="Video/Solar%20Car%20Factory/MicrosoftTeams-video.mp4"
+                autoplay
+                muted
+                playsinline
+                controls
+                preload="metadata"
+              ></video>
+            </div>
+            <div class="project-content">
+              <p class="project-meta">Idle Arcade | Mobile Game | Unity</p>
+              <h3>Solar Car Factory</h3>
+              <p>
+                An engaging idle-arcade simulation game where players build and manage a futuristic
+                solar-powered car factory. Players gather materials, craft upgrades, enhance machines,
+                manufacture cars, sell them for profit, and unlock new technologies and locations while
+                handling competitors, disasters, and environmental challenges.
+              </p>
+              <p>
+                I implemented core systems including resource mining, crafting, machine upgrades,
+                production pipelines, dynamic progression, user-friendly mechanics, performance
+                optimization, gameplay balance, level flow, and feature expansion.
+              </p>
+              <div class="tag-list">
+                <span class="tag">Resource Mining</span>
+                <span class="tag">Crafting</span>
+                <span class="tag">Machine Upgrades</span>
+                <span class="tag">Production Pipeline</span>
+                <span class="tag">Progression</span>
+              </div>
+              <div class="hero-actions">
+                <a class="button" href="https://play.google.com/store/apps/details?id=com.funcell.solarcarfactory" target="_blank" rel="noreferrer">Google Play</a>
+              </div>
+            </div>
+          </article>
+          <article class="project featured">
+            <div class="project-media">
+              <video
+                id="fast-food-video"
+                src="Video/Fast%20Food%20Factory/Fast%20Food.mp4"
+                autoplay
+                muted
+                playsinline
+                controls
+                preload="metadata"
+              ></video>
+            </div>
+            <div class="project-content">
+              <p class="project-meta">Idle | Time-Management | Mobile Game | Unity</p>
+              <h3>Fast Food Factory Tycoon</h3>
+              <p>
+                A fast-paced restaurant management game where players build, upgrade, and automate
+                a multi-cuisine fast-food factory. The gameplay focuses on meal assembly, cooking
+                stations, customer orders, beverage mechanics, rush-hour challenges, and franchise
+                progression.
+              </p>
+              <p>
+                I implemented core systems including cooking stations, customer order flow, staff
+                automation, restaurant expansion, event systems, level balancing, mobile performance
+                optimization, responsive UI/UX, and the overall progression economy.
+              </p>
+              <div class="tag-list">
+                <span class="tag">Cooking Stations</span>
+                <span class="tag">Order Flow</span>
+                <span class="tag">Staff Automation</span>
+                <span class="tag">Rush Hour</span>
+                <span class="tag">Progression Economy</span>
+              </div>
+              <div class="hero-actions">
+                <a class="button" href="https://play.google.com/store/apps/details?id=com.ridsvaz.fastfood&pcampaignid=web_share" target="_blank" rel="noreferrer">Google Play</a>
+              </div>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section id="contact">
+      <div class="section-inner">
+        <div class="contact-band">
+          <div>
+            <h2>Let's build the next version.</h2>
+            <p>Send me a message for Unity game development work, project collaboration, or portfolio details.</p>
+          </div>
+          <a class="button" href="mailto:umangpatel0321@gmail.com">Email Me</a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="section-inner">
+      <span>2026 Umang Patel. Unity Game Developer.</span>
+    </div>
+  </footer>
+
+  <script>
+    const projectVideoGroups = [
+      {
+        elementId: "solar-car-video",
+        videos: [
+          "Video/Solar%20Car%20Factory/MicrosoftTeams-video.mp4",
+          "Video/Solar%20Car%20Factory/MicrosoftTeams-video%20(1).mp4",
+          "Video/Solar%20Car%20Factory/MicrosoftTeams-video%20(2).mp4",
+          "Video/Solar%20Car%20Factory/MicrosoftTeams-video%20(3).mp4"
+        ]
+      },
+      {
+        elementId: "fast-food-video",
+        videos: [
+          "Video/Fast%20Food%20Factory/Fast%20Food.mp4"
+        ]
+      }
+    ];
+
+    projectVideoGroups.forEach(({ elementId, videos }) => {
+      const videoElement = document.getElementById(elementId);
+      let videoIndex = 0;
+
+      if (!videoElement || videos.length === 0) {
+        return;
+      }
+
+      videoElement.addEventListener("ended", () => {
+        videoIndex = (videoIndex + 1) % videos.length;
+        videoElement.src = videos[videoIndex];
+        videoElement.play().catch(() => {
+          videoElement.controls = true;
+        });
+      });
+    });
+  </script>
+</body>
+</html>
